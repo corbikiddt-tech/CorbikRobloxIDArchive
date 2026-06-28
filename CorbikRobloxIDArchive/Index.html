@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Corbik Roblox ID Archive</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #dfeaff;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        #updated {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        #contentBox {
+            width: 100%;
+            height: 80vh;
+            padding: 15px;
+            background: white;
+            border: 2px solid #4a90e2;
+            border-radius: 8px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: Consolas, monospace;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Roblox Music ID Archive</h1>
+<div id="updated">Loading update date...</div>
+
+<div id="contentBox">Loading file...</div>
+
+<script>
+async function loadText() {
+    try {
+        const response = await fetch("RobloxMusicIds.txt?cache=" + Date.now());
+
+        if (!response.ok) {
+            document.getElementById("contentBox").textContent =
+                "Error: Could not load RobloxMusicIds.txt";
+            return;
+        }
+
+        const text = await response.text();
+        document.getElementById("contentBox").textContent = text;
+
+        const lastModified = response.headers.get("Last-Modified");
+        document.getElementById("updated").textContent =
+            "Last Updated: " + (lastModified || "Unknown");
+
+    } catch (err) {
+        document.getElementById("contentBox").textContent =
+            "Error loading RobloxMusicIds.txt (CORS or hosting issue)";
+    }
+}
+
+loadText();
+</script>
+
+</body>
+</html>
