@@ -1,73 +1,501 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="CorbikRobloxIDArchive - A public archive of Roblox Music IDs updated in real time.">
-<meta name="keywords" content="Roblox Music IDs, Roblox ID Archive, CorbikRobloxIDArchive">
     <meta charset="UTF-8">
-    <title>Corbik Roblox ID Archive</title>
+    <title>CorbikRobloxIDArchive</title>
+
+    <meta name="description" content="CorbikRobloxIDArchive - Roblox Music ID Archive updated in real time.">
+    <meta name="keywords" content="Roblox Music IDs, Roblox ID Archive, CorbikRobloxIDArchive">
 
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #dfeaff;
-            padding: 20px;
+            margin: 0;
+            font-family: Segoe UI, Arial, sans-serif;
+            background: linear-gradient(#1b3b6b, #0c182b);
+            color: #fff;
         }
 
-        h1 {
+        /* Center container */
+        #app {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Windows 7 Aero window */
+        .aero-window {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            width: 900px;
+            max-width: 95vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .aero-titlebar {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.2));
+            padding: 8px 12px;
+            font-weight: bold;
+            color: #0c1a33;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .aero-titlebar span {
+            text-shadow: 0 0 3px rgba(255,255,255,0.8);
+        }
+
+        .aero-buttons {
+            display: flex;
+            gap: 6px;
+        }
+
+        .aero-btn {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            border: 1px solid rgba(0,0,0,0.3);
+            background: linear-gradient(to bottom, #fdfdfd, #cfcfcf);
+        }
+
+        .aero-content {
+            background: rgba(10, 20, 40, 0.85);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            overflow: auto;
+        }
+
+        /* Main menu buttons */
+        .menu-buttons {
+            display: flex;
+            gap: 10px;
             margin-bottom: 10px;
         }
 
+        .menu-button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.5);
+            background: linear-gradient(to bottom, #fdfdfd, #cfcfcf);
+            color: #0c1a33;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 0 6px rgba(0,0,0,0.6);
+        }
+
+        .menu-button:hover {
+            background: linear-gradient(to bottom, #ffffff, #e0e0e0);
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Start menu boxes */
+        .start-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .start-box {
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(0,0,0,0.5);
+        }
+
+        .start-box-title {
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .start-box.unavailable {
+            background: rgba(80,80,80,0.4);
+            color: #aaa;
+            cursor: default;
+        }
+
+        .start-box.unavailable .start-box-title {
+            color: #ccc;
+        }
+
+        /* OG viewer window */
+        .viewer-window {
+            margin-top: 14px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 10px;
+        }
+
         #updated {
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 15px;
+            font-size: 13px;
+            color: #cfd8ff;
+            margin-bottom: 8px;
         }
 
         #contentBox {
             width: 100%;
-            height: 80vh;
-            padding: 15px;
-            background: white;
-            border: 2px solid #4a90e2;
-            border-radius: 8px;
+            height: 50vh;
+            padding: 10px;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid #4a90e2;
+            border-radius: 6px;
             overflow-y: auto;
             white-space: pre-wrap;
             font-family: Consolas, monospace;
+            color: #e0f0ff;
+        }
+
+        /* Help section */
+        .help-list {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .help-list b {
+            color: #ffd966;
+        }
+
+        a {
+            color: #8fd3ff;
+        }
+
+        /* Credits */
+        .credits-text {
+            font-size: 15px;
+        }
+
+        /* Loading screen */
+        #loadingOverlay {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at top, #3b6fb8, #050b16);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            z-index: 9999;
+        }
+
+        .loading-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 0 8px rgba(0,0,0,0.8);
+        }
+
+        .loading-sub {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* Baldi-style wave bars */
+        .wave-container {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 20px;
+        }
+
+        .wave-bar {
+            width: 14px;
+            height: 60px;
+            background: linear-gradient(to top, #ffdd88, #ff9f43);
+            border-radius: 8px;
+            animation: wave 0.9s infinite ease-in-out;
+        }
+
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
+        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+        .wave-bar:nth-child(6) { animation-delay: 0.5s; }
+        .wave-bar:nth-child(7) { animation-delay: 0.6s; }
+        .wave-bar:nth-child(8) { animation-delay: 0.7s; }
+        .wave-bar:nth-child(9) { animation-delay: 0.8s; }
+        .wave-bar:nth-child(10) { animation-delay: 0.9s; }
+
+        @keyframes wave {
+            0%   { transform: scaleY(0.4); }
+            25%  { transform: scaleY(1.2); }
+            50%  { transform: scaleY(0.6); }
+            75%  { transform: scaleY(1.0); }
+            100% { transform: scaleY(0.4); }
+        }
+
+        .tip-box {
+            background: rgba(0,0,0,0.6);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.4);
+            padding: 12px 16px;
+            width: 420px;
+            max-width: 90vw;
+            text-align: left;
+            font-size: 14px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.7);
+        }
+
+        .tip-title {
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #ffd966;
+        }
+
+        .tip-text {
+            margin-bottom: 4px;
+        }
+
+        .tip-count {
+            font-size: 12px;
+            color: #cfd8ff;
         }
     </style>
 </head>
 <body>
 
-<h1>Roblox Music ID Archive</h1>
-<div id="updated">Loading update date...</div>
+<div id="loadingOverlay">
+    <div class="loading-title">Updating Roblox ID Archive...</div>
+    <div class="loading-sub">Checking for the latest RobloxMusicIds.txt update</div>
 
-<div id="contentBox">Loading file...</div>
+    <div class="wave-container">
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+    </div>
+
+    <div class="tip-box">
+        <div class="tip-title">Tip of the Update</div>
+        <div id="tipText" class="tip-text"></div>
+        <div id="tipCount" class="tip-count"></div>
+    </div>
+</div>
+
+<div id="app" style="display:none;">
+    <div class="aero-window">
+        <div class="aero-titlebar">
+            <span>CorbikRobloxIDArchive</span>
+            <div class="aero-buttons">
+                <div class="aero-btn"></div>
+                <div class="aero-btn"></div>
+                <div class="aero-btn"></div>
+            </div>
+        </div>
+        <div class="aero-content">
+            <div class="menu-buttons">
+                <button class="menu-button" data-target="startSection">Start</button>
+                <button class="menu-button" data-target="helpSection">Help</button>
+                <button class="menu-button" data-target="creditsSection">Credits</button>
+            </div>
+
+            <!-- START SECTION -->
+            <div id="startSection" class="section active">
+                <h2>Start</h2>
+                <p>Select a mode below. Only the first box is currently available.</p>
+
+                <div class="start-grid">
+                    <div class="start-box" id="box1">
+                        <div class="start-box-title">Original Viewer</div>
+                        <div>Load the RobloxMusicIds.txt archive viewer.</div>
+                    </div>
+
+                    <!-- 9 unavailable boxes -->
+                    <div class="start-box unavailable">
+                        <div class="start-box-title">[Unavailable]</div>
+                        <div>Coming soon.</div>
+                    </div>
+                    <div class="start-box unavailable">
+                        <div class="start-box-title">[Unavailable]</div>
+                        <div>Coming soon.</div>
+                    </div>
+                    <div class="start-box unavailable">
+                        <div class="start-box-title">[Unavailable]</div>
+                        <div>Coming soon.</div>
+                    </div>
+                    <div class="start-box unavailable">
+                        <div class="start-box-title">[Unavailable]</div>
+                        <div>Coming soon.</div>
+                    </div>
+                    <div class="start-box unavailable">
+                        <div class="start-box-title">[Unavailable]</div>
+                        <div>Coming soon.</div>
+                    </div>
+                    <div class="start-box unavailable">
+                        <div class="start-box-title">[Unavailable]</div>
+                        <div>Coming soon.</div>
+                    </div>
+                    <div class="start-box unavailable">
+                        <div class="start-box-title">[Unavailable]</div>
+                        <div>Coming soon.</div>
+                    </div>
+                    <div class="start-box unavailable">
+                        <div class="start-box-title">[Unavailable]</div>
+                        <div>Coming soon.</div>
+                    </div>
+                    <div class="start-box unavailable">
+                        <div class="start-box-title">[Unavailable]</div>
+                        <div>Coming soon.</div>
+                    </div>
+                </div>
+
+                <div class="viewer-window" id="viewerWindow" style="display:none;">
+                    <h3>Roblox Music ID Archive Viewer</h3>
+                    <div id="updated">Loading update date...</div>
+                    <div id="contentBox">Loading file...</div>
+                </div>
+            </div>
+
+            <!-- HELP SECTION -->
+            <div id="helpSection" class="section">
+                <h2>Help</h2>
+                <div class="help-list">
+                    <p><b>Average update times:</b> When RobloxMusicIds.txt is updated, the viewer usually reflects changes within about 30 seconds, depending on hosting response time and caching.</p>
+                    <p><b>Real-time behavior:</b> This page checks for the latest version of the TXT file whenever you load the viewer. If the file changes, you’ll see the loading screen again on the next refresh.</p>
+                    <p><b>Tips:</b></p>
+                    <ul>
+                        <li>Use the Original Viewer box in Start to see the latest IDs.</li>
+                        <li>If the content looks old, refresh the page (CTRL + SHIFT + R).</li>
+                        <li>Updates may be slightly delayed by GitHub or your browser cache.</li>
+                        <li>The loading screen shows a random tip each time it appears.</li>
+                    </ul>
+                    <p><b>Discord server:</b> Join the community here:<br>
+                        <a href="https://discord.gg/UCa6RGqhDN" target="_blank">https://discord.gg/UCa6RGqhDN</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- CREDITS SECTION -->
+            <div id="creditsSection" class="section">
+                <h2>Credits</h2>
+                <div class="credits-text">
+                    <p><b>Project:</b> CorbikRobloxIDArchive</p>
+                    <p><b>Creator:</b> Corbikidd</p>
+                    <p>All design, concept, and archive work by Corbikidd.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
-async function loadText() {
-    try {
-        const response = await fetch("RobloxMusicIds.txt?cache=" + Date.now());
+    // ====== TIPS ======
+    const tips = [
+        "Tip: Refresh the page if the IDs look outdated. Caching can delay new content.",
+        "Tip: The viewer pulls directly from the latest RobloxMusicIds.txt file.",
+        "Tip: Use CTRL + F in your browser to search for specific IDs.",
+        "Tip: Keep this tab open while you test IDs in Roblox for faster workflow.",
+        "Tip: If the archive seems empty, check that the TXT file actually has content.",
+        "Tip: Updates may take a few seconds to propagate from GitHub.",
+        "Tip: Share the archive link with friends so they can use the IDs too.",
+        "Tip: Join the Discord server for announcements and new features.",
+        "Tip: The first box in Start is the main viewer. Others will unlock later.",
+        "Tip: Hard refresh (CTRL + SHIFT + R) forces your browser to grab the newest version."
+    ];
 
-        if (!response.ok) {
-            document.getElementById("contentBox").textContent =
-                "Error: Could not load RobloxMusicIds.txt";
-            return;
-        }
-
-        const text = await response.text();
-        document.getElementById("contentBox").textContent = text;
-
-        const lastModified = response.headers.get("Last-Modified");
-        document.getElementById("updated").textContent =
-            "Last Updated: " + (lastModified || "Unknown");
-
-    } catch (err) {
-        document.getElementById("contentBox").textContent =
-            "Error loading RobloxMusicIds.txt (CORS or hosting issue)";
+    function pickRandomTip() {
+        const tipIndex = Math.floor(Math.random() * tips.length);
+        document.getElementById("tipText").textContent = tips[tipIndex];
+        document.getElementById("tipCount").textContent =
+            "Showing tip " + (tipIndex + 1) + " of " + tips.length + " for this update.";
     }
-}
 
-loadText();
+    pickRandomTip();
+
+    // ====== SIMPLE UPDATE CHECK + LOADING FLOW ======
+    let lastTextHash = null;
+
+    async function fetchTextAndDetectUpdate() {
+        const url = "https://raw.githubusercontent.com/corbikiddt-tech/CorbikRobloxIDArchive/main/RobloxMusicIds.txt?cache=" + Date.now();
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+                document.getElementById("contentBox").textContent =
+                    "Error: Could not load RobloxMusicIds.txt";
+                document.getElementById("updated").textContent = "Last Updated: Unknown";
+                return;
+            }
+
+            const text = await response.text();
+            const hash = text.length + ":" + (text.split("\n").length);
+
+            // If hash changed, we treat it as an update (next load will show loading again)
+            if (lastTextHash && lastTextHash !== hash) {
+                // For now, just note that it changed; viewer already shows latest.
+                console.log("Detected update to RobloxMusicIds.txt");
+            }
+            lastTextHash = hash;
+
+            document.getElementById("contentBox").textContent = text;
+
+            const lastModified = response.headers.get("Last-Modified");
+            document.getElementById("updated").textContent =
+                "Last Updated: " + (lastModified || "Unknown");
+        } catch (err) {
+            document.getElementById("contentBox").textContent =
+                "Error loading RobloxMusicIds.txt (network or hosting issue)";
+            document.getElementById("updated").textContent = "Last Updated: Unknown";
+        }
+    }
+
+    // ====== INITIAL LOADING SCREEN FLOW ======
+    function hideLoadingShowApp() {
+        document.getElementById("loadingOverlay").style.display = "none";
+        document.getElementById("app").style.display = "flex";
+    }
+
+    // Simulate a short loading time (like Baldi-style loading)
+    setTimeout(() => {
+        hideLoadingShowApp();
+    }, 2500);
+
+    // ====== MENU BUTTONS ======
+    const menuButtons = document.querySelectorAll(".menu-button");
+    const sections = document.querySelectorAll(".section");
+
+    menuButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const targetId = btn.getAttribute("data-target");
+            sections.forEach(sec => {
+                sec.classList.toggle("active", sec.id === targetId);
+            });
+        });
+    });
+
+    // ====== START BOX 1 (OG VIEWER) ======
+    const box1 = document.getElementById("box1");
+    const viewerWindow = document.getElementById("viewerWindow");
+
+    box1.addEventListener("click", () => {
+        viewerWindow.style.display = "block";
+        fetchTextAndDetectUpdate();
+    });
 </script>
 
 </body>
