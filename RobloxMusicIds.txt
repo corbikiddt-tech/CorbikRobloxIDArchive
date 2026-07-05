@@ -12,9 +12,16 @@ Also, please do not try and attempt to take down all these ID's, it took me way 
 Thanks for using this!
 
 UPDATE LOG
--------------------------------------------
-Update v0.2 developer build, First release.
--------------------------------------------
+-------------------------------------------------------------
+Update v0.3 developer build, Second Release, Major UPD Build
+-------------------------------------------------------------
+CHANGE LOG
+-------------------------------------------------------------
+Added Loading screen
+Added Menu (+All Menu Features)
+Added Discord Srv.
+Updated 'UPDATE LOG'
+-------------------------------------------------------------
 
 funk ids
 --------------------------------------
