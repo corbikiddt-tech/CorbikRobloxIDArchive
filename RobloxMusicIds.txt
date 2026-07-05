@@ -13,7 +13,7 @@ Thanks for using this!
 
 UPDATE LOG
 -------------------------------------------
-Update v0.1 developer build, First release.
+Update v0.2 developer build, First release.
 -------------------------------------------
 
 funk ids
