@@ -23,6 +23,8 @@ Added Discord Srv.
 Updated 'UPDATE LOG'
 -------------------------------------------------------------
 
+upd test 1
+
 funk ids
 --------------------------------------
 120785124326826 - Who's So Autonomous?
