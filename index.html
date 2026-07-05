@@ -15,16 +15,14 @@
             color: #fff;
         }
 
-        /* Center container */
         #app {
             width: 100%;
             height: 100vh;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
         }
 
-        /* Windows 7 Aero window */
         .aero-window {
             background: rgba(255, 255, 255, 0.15);
             border-radius: 8px;
@@ -49,10 +47,6 @@
             align-items: center;
         }
 
-        .aero-titlebar span {
-            text-shadow: 0 0 3px rgba(255,255,255,0.8);
-        }
-
         .aero-buttons {
             display: flex;
             gap: 6px;
@@ -75,7 +69,6 @@
             overflow: auto;
         }
 
-        /* Main menu buttons */
         .menu-buttons {
             display: flex;
             gap: 10px;
@@ -97,7 +90,6 @@
             background: linear-gradient(to bottom, #ffffff, #e0e0e0);
         }
 
-        /* Sections */
         .section {
             display: none;
         }
@@ -106,7 +98,6 @@
             display: block;
         }
 
-        /* Start menu boxes */
         .start-grid {
             display: grid;
             grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -135,11 +126,6 @@
             cursor: default;
         }
 
-        .start-box.unavailable .start-box-title {
-            color: #ccc;
-        }
-
-        /* OG viewer window */
         .viewer-window {
             margin-top: 14px;
             background: rgba(255,255,255,0.08);
@@ -167,26 +153,6 @@
             color: #e0f0ff;
         }
 
-        /* Help section */
-        .help-list {
-            font-size: 14px;
-            line-height: 1.5;
-        }
-
-        .help-list b {
-            color: #ffd966;
-        }
-
-        a {
-            color: #8fd3ff;
-        }
-
-        /* Credits */
-        .credits-text {
-            font-size: 15px;
-        }
-
-        /* Loading screen */
         #loadingOverlay {
             position: fixed;
             inset: 0;
@@ -211,7 +177,6 @@
             margin-bottom: 20px;
         }
 
-        /* Baldi-style wave bars */
         .wave-container {
             display: flex;
             gap: 6px;
@@ -281,7 +246,7 @@
     <div class="wave-container">
         <div class="wave-bar"></div>
         <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
+       div class="wave-bar"></div>
         <div class="wave-bar"></div>
         <div class="wave-bar"></div>
         <div class="wave-bar"></div>
@@ -298,7 +263,7 @@
     </div>
 </div>
 
-<div id="app" style="display:none;">
+<div id="app">
     <div class="aero-window">
         <div class="aero-titlebar">
             <span>CorbikRobloxIDArchive</span>
@@ -308,6 +273,7 @@
                 <div class="aero-btn"></div>
             </div>
         </div>
+
         <div class="aero-content">
             <div class="menu-buttons">
                 <button class="menu-button" data-target="startSection">Start</button>
@@ -315,7 +281,6 @@
                 <button class="menu-button" data-target="creditsSection">Credits</button>
             </div>
 
-            <!-- START SECTION -->
             <div id="startSection" class="section active">
                 <h2>Start</h2>
                 <p>Select a mode below. Only the first box is currently available.</p>
@@ -327,155 +292,115 @@
                     </div>
 
                     <!-- 9 unavailable boxes -->
-                    <div class="start-box unavailable">
-                        <div class="start-box-title">[Unavailable]</div>
-                        <div>Coming soon.</div>
-                    </div>
-                    <div class="start-box unavailable">
-                        <div class="start-box-title">[Unavailable]</div>
-                        <div>Coming soon.</div>
-                    </div>
-                    <div class="start-box unavailable">
-                        <div class="start-box-title">[Unavailable]</div>
-                        <div>Coming soon.</div>
-                    </div>
-                    <div class="start-box unavailable">
-                        <div class="start-box-title">[Unavailable]</div>
-                        <div>Coming soon.</div>
-                    </div>
-                    <div class="start-box unavailable">
-                        <div class="start-box-title">[Unavailable]</div>
-                        <div>Coming soon.</div>
-                    </div>
-                    <div class="start-box unavailable">
-                        <div class="start-box-title">[Unavailable]</div>
-                        <div>Coming soon.</div>
-                    </div>
-                    <div class="start-box unavailable">
-                        <div class="start-box-title">[Unavailable]</div>
-                        <div>Coming soon.</div>
-                    </div>
-                    <div class="start-box unavailable">
-                        <div class="start-box-title">[Unavailable]</div>
-                        <div>Coming soon.</div>
-                    </div>
-                    <div class="start-box unavailable">
-                        <div class="start-box-title">[Unavailable]</div>
-                        <div>Coming soon.</div>
-                    </div>
+                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
+                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
+                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
+                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
+                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
+                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
+                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
+                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
+                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
                 </div>
 
                 <div class="viewer-window" id="viewerWindow" style="display:none;">
                     <h3>Roblox Music ID Archive Viewer</h3>
+
+                    <button id="refreshBtn" class="menu-button">Refresh Archive</button>
+
                     <div id="updated">Loading update date...</div>
                     <div id="contentBox">Loading file...</div>
                 </div>
             </div>
 
-            <!-- HELP SECTION -->
             <div id="helpSection" class="section">
                 <h2>Help</h2>
-                <div class="help-list">
-                    <p><b>Average update times:</b> When RobloxMusicIds.txt is updated, the viewer usually reflects changes within about 30 seconds, depending on hosting response time and caching.</p>
-                    <p><b>Real-time behavior:</b> This page checks for the latest version of the TXT file whenever you load the viewer. If the file changes, you’ll see the loading screen again on the next refresh.</p>
-                    <p><b>Tips:</b></p>
-                    <ul>
-                        <li>Use the Original Viewer box in Start to see the latest IDs.</li>
-                        <li>If the content looks old, refresh the page (CTRL + SHIFT + R).</li>
-                        <li>Updates may be slightly delayed by GitHub or your browser cache.</li>
-                        <li>The loading screen shows a random tip each time it appears.</li>
-                    </ul>
-                    <p><b>Discord server:</b> Join the community here:<br>
-                        <a href="https://discord.gg/UCa6RGqhDN" target="_blank">https://discord.gg/UCa6RGqhDN</a>
-                    </p>
-                </div>
+                <p><b>Average update times:</b> Updates usually appear within ~30 seconds after the TXT changes.</p>
+                <p><b>Real-time behavior:</b> Refresh the viewer to force a full re-read of the TXT file.</p>
+                <p><b>Discord:</b> <a href="https://discord.gg/UCa6RGqhDN" target="_blank">https://discord.gg/UCa6RGqhDN</a></p>
             </div>
 
-            <!-- CREDITS SECTION -->
             <div id="creditsSection" class="section">
                 <h2>Credits</h2>
-                <div class="credits-text">
-                    <p><b>Project:</b> CorbikRobloxIDArchive</p>
-                    <p><b>Creator:</b> Corbikidd</p>
-                    <p>All design, concept, and archive work by Corbikidd.</p>
-                </div>
+                <p><b>Creator:</b> Corbikidd</p>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    // ====== TIPS ======
     const tips = [
-        "Tip: Refresh the page if the IDs look outdated. Caching can delay new content.",
-        "Tip: The viewer pulls directly from the latest RobloxMusicIds.txt file.",
-        "Tip: Use CTRL + F in your browser to search for specific IDs.",
-        "Tip: Keep this tab open while you test IDs in Roblox for faster workflow.",
-        "Tip: If the archive seems empty, check that the TXT file actually has content.",
-        "Tip: Updates may take a few seconds to propagate from GitHub.",
-        "Tip: Share the archive link with friends so they can use the IDs too.",
-        "Tip: Join the Discord server for announcements and new features.",
-        "Tip: The first box in Start is the main viewer. Others will unlock later.",
-        "Tip: Hard refresh (CTRL + SHIFT + R) forces your browser to grab the newest version."
+        "Tip: Refresh the page if the IDs look outdated.",
+        "Tip: Viewer pulls directly from the latest TXT file.",
+        "Tip: Use CTRL + F to search IDs.",
+        "Tip: Keep this tab open while testing IDs.",
+        "Tip: If empty, check the TXT file content.",
+        "Tip: GitHub may delay updates slightly.",
+        "Tip: Share the archive link with friends.",
+        "Tip: Join the Discord for updates.",
+        "Tip: Only the first box is active.",
+        "Tip: Hard refresh forces newest version."
     ];
 
     function pickRandomTip() {
         const tipIndex = Math.floor(Math.random() * tips.length);
         document.getElementById("tipText").textContent = tips[tipIndex];
         document.getElementById("tipCount").textContent =
-            "Showing tip " + (tipIndex + 1) + " of " + tips.length + " for this update.";
+            "Showing tip " + (tipIndex + 1) + " of " + tips.length + ".";
     }
 
     pickRandomTip();
 
-    // ====== SIMPLE UPDATE CHECK + LOADING FLOW ======
     let lastTextHash = null;
 
-    async function fetchTextAndDetectUpdate() {
-        const url = "https://raw.githubusercontent.com/corbikiddt-tech/CorbikRobloxIDArchive/main/RobloxMusicIds.txt?cache=" + Date.now();
+    async function fetchTextAndDetectUpdate(forceRefresh = false) {
+        const url = "https://raw.githubusercontent.com/corbikiddt-tech/CorbikRobloxIDArchive/main/RobloxMusicIds.txt?nocache=" + Date.now();
+
+        if (forceRefresh) {
+            document.getElementById("loadingOverlay").style.display = "flex";
+            document.getElementById("app").style.display = "none";
+            pickRandomTip();
+        }
+
         try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                document.getElementById("contentBox").textContent =
-                    "Error: Could not load RobloxMusicIds.txt";
-                document.getElementById("updated").textContent = "Last Updated: Unknown";
-                return;
-            }
+            const response = await fetch(url, {
+                cache: "no-store",
+                headers: {
+                    "Cache-Control": "no-cache, no-store, must-revalidate",
+                    "Pragma": "no-cache",
+                    "Expires": "0"
+                }
+            });
 
             const text = await response.text();
             const hash = text.length + ":" + (text.split("\n").length);
 
-            // If hash changed, we treat it as an update (next load will show loading again)
-            if (lastTextHash && lastTextHash !== hash) {
-                // For now, just note that it changed; viewer already shows latest.
-                console.log("Detected update to RobloxMusicIds.txt");
-            }
             lastTextHash = hash;
-
             document.getElementById("contentBox").textContent = text;
 
             const lastModified = response.headers.get("Last-Modified");
             document.getElementById("updated").textContent =
                 "Last Updated: " + (lastModified || "Unknown");
+
         } catch (err) {
             document.getElementById("contentBox").textContent =
-                "Error loading RobloxMusicIds.txt (network or hosting issue)";
+                "Error loading RobloxMusicIds.txt";
             document.getElementById("updated").textContent = "Last Updated: Unknown";
+        }
+
+        if (forceRefresh) {
+            setTimeout(() => {
+                document.getElementById("loadingOverlay").style.display = "none";
+                document.getElementById("app").style.display = "flex";
+            }, 1500);
         }
     }
 
-    // ====== INITIAL LOADING SCREEN FLOW ======
-    function hideLoadingShowApp() {
+    setTimeout(() => {
         document.getElementById("loadingOverlay").style.display = "none";
         document.getElementById("app").style.display = "flex";
-    }
-
-    // Simulate a short loading time (like Baldi-style loading)
-    setTimeout(() => {
-        hideLoadingShowApp();
     }, 2500);
 
-    // ====== MENU BUTTONS ======
     const menuButtons = document.querySelectorAll(".menu-button");
     const sections = document.querySelectorAll(".section");
 
@@ -488,13 +413,13 @@
         });
     });
 
-    // ====== START BOX 1 (OG VIEWER) ======
-    const box1 = document.getElementById("box1");
-    const viewerWindow = document.getElementById("viewerWindow");
-
-    box1.addEventListener("click", () => {
-        viewerWindow.style.display = "block";
+    document.getElementById("box1").addEventListener("click", () => {
+        document.getElementById("viewerWindow").style.display = "block";
         fetchTextAndDetectUpdate();
+    });
+
+    document.getElementById("refreshBtn").addEventListener("click", () => {
+        fetchTextAndDetectUpdate(true);
     });
 </script>
 
