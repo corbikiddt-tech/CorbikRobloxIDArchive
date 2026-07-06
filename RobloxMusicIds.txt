@@ -17,13 +17,10 @@ Update v0.3 developer build, Second Release, Major UPD Build
 -------------------------------------------------------------
 CHANGE LOG
 -------------------------------------------------------------
-Added Loading screen
-Added Menu (+All Menu Features)
-Added Discord Srv.
-Updated 'UPDATE LOG'
+ADDED - CALL OF THE VOID ONE LEFT
 -------------------------------------------------------------
 
-upd test 1
+upd test 2
 
 funk ids
 --------------------------------------
@@ -104,6 +101,7 @@ Undertale AU's
 70631807399198 - omniversal chara's fight theme
 101730223568557 - Underfell Sans Megalovania
 100093014571503 - Underpants Sans Megalovania 
+103167351125844 - Call of the Void One Left 
 
 
 UNDERTALE REMIXS
