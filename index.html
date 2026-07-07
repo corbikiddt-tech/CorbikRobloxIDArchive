@@ -1,427 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CorbikRobloxIDArchive</title>
-
-    <meta name="google-site-verification" content="1e2d386e61b3d632">
-
-    <meta name="description" content="CorbikRobloxIDArchive - Roblox Music ID Archive updated in real time.">
-    <meta name="keywords" content="Roblox Music IDs, Roblox ID Archive, CorbikRobloxIDArchive">
-
     <style>
+        /* Base styles matching your UI color scheme */
         body {
-            margin: 0;
-            font-family: Segoe UI, Arial, sans-serif;
-            background: linear-gradient(#1b3b6b, #0c182b);
-            color: #fff;
+            background-color: #0d1b2a;
+            color: #ffffff;
+            font-family: sans-serif;
+            margin: 20px;
         }
-
-        #app {
-            width: 100%;
-            height: 100vh;
-            display: none;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .aero-window {
-            background: rgba(255, 255, 255, 0.15);
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #1b263b;
+            padding: 20px;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            width: 900px;
-            max-width: 95vw;
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-
-        .aero-titlebar {
-            background: linear-gradient(to bottom, rgba(255,255,255,0.6), rgba(255,255,255,0.2));
-            padding: 8px 12px;
-            font-weight: bold;
-            color: #0c1a33;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .aero-buttons {
-            display: flex;
-            gap: 6px;
-        }
-
-        .aero-btn {
-            width: 16px;
-            height: 16px;
-            border-radius: 3px;
-            border: 1px solid rgba(0,0,0,0.3);
-            background: linear-gradient(to bottom, #fdfdfd, #cfcfcf);
-        }
-
-        .aero-content {
-            background: rgba(10, 20, 40, 0.85);
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            overflow: auto;
-        }
-
-        .menu-buttons {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .menu-button {
-            padding: 8px 16px;
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.5);
-            background: linear-gradient(to bottom, #fdfdfd, #cfcfcf);
-            color: #0c1a33;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 0 6px rgba(0,0,0,0.6);
-        }
-
-        .menu-button:hover {
-            background: linear-gradient(to bottom, #ffffff, #e0e0e0);
-        }
-
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        .start-grid {
-            display: grid;
-            grid-template-columns: repeat(5, minmax(0, 1fr));
-            gap: 10px;
+        .viewer-box {
+            background-color: #0a0f1d;
+            border: 1px solid #415a77;
+            border-radius: 4px;
+            padding: 15px;
+            min-height: 200px;
             margin-top: 10px;
-        }
-
-        .start-box {
-            background: rgba(255,255,255,0.1);
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.4);
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            box-shadow: 0 0 8px rgba(0,0,0,0.5);
-        }
-
-        .start-box-title {
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-
-        .start-box.unavailable {
-            background: rgba(80,80,80,0.4);
-            color: #aaa;
-            cursor: default;
-        }
-
-        .viewer-window {
-            margin-top: 14px;
-            background: rgba(255,255,255,0.08);
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.4);
-            padding: 10px;
-        }
-
-        #updated {
-            font-size: 13px;
-            color: #cfd8ff;
-            margin-bottom: 8px;
-        }
-
-        #contentBox {
-            width: 100%;
-            height: 50vh;
-            padding: 10px;
-            background: rgba(0,0,0,0.7);
-            border: 1px solid #4a90e2;
-            border-radius: 6px;
-            overflow-y: auto;
             white-space: pre-wrap;
-            font-family: Consolas, monospace;
-            color: #e0f0ff;
+            font-family: monospace;
+            color: #e0e1dd;
         }
-
-        #loadingOverlay {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at top, #3b6fb8, #050b16);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            z-index: 9999;
+        .error-message {
+            color: #e63946;
+            font-weight: bold;
         }
-
-        .loading-title {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-shadow: 0 0 8px rgba(0,0,0,0.8);
+        button {
+            background-color: #e0e1dd;
+            color: #0d1b2a;
+            border: none;
+            padding: 8px 15px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
         }
-
-        .loading-sub {
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-
-        .wave-container {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 20px;
-        }
-
-        .wave-bar {
-            width: 14px;
-            height: 60px;
-            background: linear-gradient(to top, #ffdd88, #ff9f43);
-            border-radius: 8px;
-            animation: wave 0.9s infinite ease-in-out;
-        }
-
-        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
-        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
-        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
-        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
-        .wave-bar:nth-child(6) { animation-delay: 0.5s; }
-        .wave-bar:nth-child(7) { animation-delay: 0.6s; }
-        .wave-bar:nth-child(8) { animation-delay: 0.7s; }
-        .wave-bar:nth-child(9) { animation-delay: 0.8s; }
-        .wave-bar:nth-child(10) { animation-delay: 0.9s; }
-
-        @keyframes wave {
-            0%   { transform: scaleY(0.4); }
-            25%  { transform: scaleY(1.2); }
-            50%  { transform: scaleY(0.6); }
-            75%  { transform: scaleY(1.0); }
-            100% { transform: scaleY(0.4); }
-        }
-
-        .tip-box {
-            background: rgba(0,0,0,0.6);
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.4);
-            padding: 12px 16px;
-            width: 420px;
-            max-width: 90vw;
-            text-align: left;
-            font-size: 14px;
-            box-shadow: 0 0 12px rgba(0,0,0,0.7);
-        }
-
-        .tip-title {
-            font-weight: 700;
-            margin-bottom: 6px;
-            color: #ffd966;
-        }
-
-        .tip-text {
-            margin-bottom: 4px;
-        }
-
-        .tip-count {
-            font-size: 12px;
-            color: #cfd8ff;
+        button:hover {
+            background-color: #ffffff;
         }
     </style>
 </head>
 <body>
 
-<div id="loadingOverlay">
-    <div class="loading-title">Updating Roblox ID Archive...</div>
-    <div class="loading-sub">Checking for the latest RobloxMusicIds.txt update</div>
-
-    <div class="wave-container">
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
-        <div class="wave-bar"></div>
+<div class="container">
+    <h2>Roblox Music ID Archive Viewer</h2>
+    
+    <!-- Action elements mirroring your UI -->
+    <div style="margin-bottom: 10px;">
+        <button id="refresh-btn">Refresh Archive</button>
+    </div>
+    
+    <div id="last-updated" style="font-size: 0.9em; color: #a5a5a5;">
+        Last Updated: Unknown
     </div>
 
-    <div class="tip-box">
-        <div class="tip-title">Tip of the Update</div>
-        <div id="tipText" class="tip-text"></div>
-        <div id="tipCount" class="tip-count"></div>
-    </div>
-</div>
-
-<div id="app">
-    <div class="aero-window">
-        <div class="aero-titlebar">
-            <span>CorbikRobloxIDArchive</span>
-            <div class="aero-buttons">
-                <div class="aero-btn"></div>
-                <div class="aero-btn"></div>
-                <div class="aero-btn"></div>
-            </div>
-        </div>
-
-        <div class="aero-content">
-            <div class="menu-buttons">
-                <button class="menu-button" data-target="startSection">Start</button>
-                <button class="menu-button" data-target="helpSection">Help</button>
-                <button class="menu-button" data-target="creditsSection">Credits</button>
-            </div>
-
-            <div id="startSection" class="section active">
-                <h2>Start</h2>
-                <p>Select a mode below. Only the first box is currently available.</p>
-
-                <div class="start-grid">
-                    <div class="start-box" id="box1">
-                        <div class="start-box-title">Original Viewer</div>
-                        <div>Load the RobloxMusicIds.txt archive viewer.</div>
-                    </div>
-
-                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
-                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
-                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
-                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
-                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
-                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
-                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
-                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
-                    <div class="start-box unavailable"><div class="start-box-title">[Unavailable]</div><div>Coming soon.</div></div>
-                </div>
-
-                <div class="viewer-window" id="viewerWindow" style="display:none;">
-                    <h3>Roblox Music ID Archive Viewer</h3>
-
-                    <button id="refreshBtn" class="menu-button">Refresh Archive</button>
-
-                    <div id="updated">Loading update date...</div>
-                    <div id="contentBox">Loading file...</div>
-                </div>
-            </div>
-
-            <div id="helpSection" class="section">
-                <h2>Help</h2>
-                <p><b>Average update times:</b> Updates usually appear within ~30 seconds after the TXT changes.</p>
-                <p><b>Real-time behavior:</b> Refresh the viewer to force a full re-read of the TXT file.</p>
-                <p><b>Discord:</b> <a href="https://discord.gg/UCa6RGqhDN" target="_blank">https://discord.gg/UCa6RGqhDN</a></p>
-            </div>
-
-            <div id="creditsSection" class="section">
-                <h2>Credits</h2>
-                <p><b>Creator:</b> Corbikidd</p>
-            </div>
-        </div>
+    <!-- The viewer display container -->
+    <div id="archive-viewer" class="viewer-box">
+        <span class="error-message">Loading archive...</span>
     </div>
 </div>
 
 <script>
-    const tips = [
-        "Tip: Refresh the page if the IDs look outdated.",
-        "Tip: Viewer pulls directly from the latest TXT file.",
-        "Tip: Use CTRL + F to search IDs.",
-        "Tip: Keep this tab open while testing IDs.",
-        "Tip: If empty, check the TXT file content.",
-        "Tip: GitHub may delay updates slightly.",
-        "Tip: Share the archive link with friends.",
-        "Tip: Join the Discord for updates.",
-        "Tip: Only the first box is active.",
-        "Tip: Hard refresh forces newest version."
-    ];
+    async function loadMusicArchive() {
+        const viewer = document.getElementById("archive-viewer");
+        const lastUpdatedText = document.getElementById("last-updated");
 
-    function pickRandomTip() {
-        const tipIndex = Math.floor(Math.random() * tips.length);
-        document.getElementById("tipText").textContent = tips[tipIndex];
-        document.getElementById("tipCount").textContent =
-            "Showing tip " + (tipIndex + 1) + " of " + tips.length + ".";
-    }
-
-    pickRandomTip();
-
-    let lastTextHash = null;
-
-    async function fetchTextAndDetectUpdate(forceRefresh = false) {
-        const url = "https://raw.githubusercontent.com/corbikiddt-tech/CorbikRobloxIDArchive/main/RobloxMusicIds.txt?nocache=" + Date.now();
-
-        if (forceRefresh) {
-            document.getElementById("loadingOverlay").style.display = "flex";
-            document.getElementById("app").style.display = "none";
-            pickRandomTip();
-        }
+        // Relative path string ensuring compatibility with GitHub Pages routing
+        const filePath = "RobloxMusicIds.txt"; 
 
         try {
-            const response = await fetch(url, {
-                cache: "no-store",
-                headers: {
-                    "Cache-Control": "no-cache, no-store, must-revalidate",
-                    "Pragma": "no-cache",
-                    "Expires": "0"
-                }
-            });
+            const response = await fetch(filePath);
 
-            const text = await response.text();
-            const hash = text.length + ":" + (text.split("\n").length);
+            if (!response.ok) {
+                // Catches 404 Not Found errors caused by casing mistakes on GitHub
+                throw new Error(`HTTP ${response.status}`);
+            }
 
-            lastTextHash = hash;
-            document.getElementById("contentBox").textContent = text;
+            const data = await response.text();
+            
+            // Render the text content inside the viewer box
+            viewer.innerText = data;
+            
+            // Update time stamp upon a successful network fetch
+            const now = new Date();
+            lastUpdatedText.innerText = `Last Updated: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
 
-            const lastModified = response.headers.get("Last-Modified");
-            document.getElementById("updated").textContent =
-                "Last Updated: " + (lastModified || "Unknown");
-
-        } catch (err) {
-            document.getElementById("contentBox").textContent =
-                "Error loading RobloxMusicIds.txt";
-            document.getElementById("updated").textContent = "Last Updated: Unknown";
-        }
-
-        if (forceRefresh) {
-            setTimeout(() => {
-                document.getElementById("loadingOverlay").style.display = "none";
-                document.getElementById("app").style.display = "flex";
-            }, 1500);
+        } catch (error) {
+            // Render the targeted error UI state if the file cannot be accessed
+            viewer.innerHTML = `<span class="error-message">Error loading RobloxMusicIds.txt (${error.message})</span>`;
         }
     }
 
-    setTimeout(() => {
-        document.getElementById("loadingOverlay").style.display = "none";
-        document.getElementById("app").style.display = "flex";
-    }, 2500);
-
-    const menuButtons = document.querySelectorAll(".menu-button");
-    const sections = document.querySelectorAll(".section");
-
-    menuButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const targetId = btn.getAttribute("data-target");
-            sections.forEach(sec => {
-                sec.classList.toggle("active", sec.id === targetId);
-            });
-        });
-    });
-
-    document.getElementById("box1").addEventListener("click", () => {
-        document.getElementById("viewerWindow").style.display = "block";
-        fetchTextAndDetectUpdate();
-    });
-
-    document.getElementById("refreshBtn").addEventListener("click", () => {
-        fetchTextAndDetectUpdate(true);
-    });
+    // Bind event listeners to UI components
+    document.getElementById("refresh-btn").addEventListener("click", loadMusicArchive);
+    
+    // Initial fetch cycle on initial document load
+    window.addEventListener("DOMContentLoaded", loadMusicArchive);
 </script>
 
 </body>
