@@ -2,166 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CorbikRobloxIDArchive</title>
+    <title>Roblox Music ID Viewer</title>
     <style>
-        /* Base styles matching your UI color scheme */
         body {
-            background-color: #0d1b2a;
-            color: #ffffff;
-            font-family: sans-serif;
-            margin: 20px;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            padding: 20px;
         }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: #1b263b;
+        #container {
+            background: white;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: auto;
         }
-        .viewer-box {
-            background-color: #0a0f1d;
-            border: 1px solid #415a77;
-            border-radius: 4px;
-            padding: 15px;
-            min-height: 200px;
-            margin-top: 10px;
+        #output {
             white-space: pre-wrap;
-            font-family: monospace;
-            color: #e0e1dd;
+            background: #fafafa;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            margin-top: 10px;
         }
-        .error-message {
-            color: #e63946;
-            font-weight: bold;
-        }
-        button {
-            background-color: #e0e1dd;
-            color: #0d1b2a;
-            border: none;
-            padding: 8px 15px;
-            font-weight: bold;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #ffffff;
+        #refresh {
+            margin-top: 15px;
+            padding: 10px 15px;
+            font-size: 16px;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Roblox Music ID Archive Viewer</h2>
-    
-    <!-- Action elements mirroring your UI -->
-    <div style="margin-bottom: 10px;">
-        <button id="refresh-btn">Refresh Archive</button>
-    </div>
-    
-    <div id="last-updated" style="font-size: 0.9em; color: #a5a5a5;">
-        Last Updated: Unknown
-    </div>
+<div id="container">
+    <h2>RobloxMusicIds.txt Viewer</h2>
+    <p>This page loads the exact contents of <strong>RobloxMusicIds.txt</strong> from your GitHub Pages site.</p>
 
-    <!-- The viewer display container -->
-    <div id="archive-viewer" class="viewer-box">
-        <span class="error-message">Loading archive...</span>
-    </div>
+    <button id="refresh">Refresh File</button>
+
+    <div id="output">Loading...</div>
 </div>
 
 <script>
-    const tips = [
-        "Tip: Refresh the page if the IDs look outdated.",
-        "Tip: Viewer pulls directly from the latest TXT file.",
-        "Tip: Use CTRL + F to search IDs.",
-        "Tip: Keep this tab open while testing IDs.",
-        "Tip: If empty, check the TXT file content.",
-        "Tip: GitHub may delay updates slightly.",
-        "Tip: Share the archive link with friends.",
-        "Tip: Join the Discord for updates.",
-        "Tip: Only the first box is active.",
-        "Tip: Hard refresh forces newest version."
-    ];
-
-    function pickRandomTip() {
-        const tipIndex = Math.floor(Math.random() * tips.length);
-        document.getElementById("tipText").textContent = tips[tipIndex];
-        document.getElementById("tipCount").textContent =
-            "Showing tip " + (tipIndex + 1) + " of " + tips.length + ".";
-    }
-
-    pickRandomTip();
-
-    let lastTextHash = null;
-
-    async function fetchTextAndDetectUpdate(forceRefresh = false) {
-        const url = "https://raw.githubusercontent.com/corbikiddt-tech/CorbikRobloxIDArchive/main/RobloxMusicIds.txt?nocache=" + Date.now();
-
-        if (forceRefresh) {
-            document.getElementById("loadingOverlay").style.display = "flex";
-            document.getElementById("app").style.display = "none";
-            pickRandomTip();
-        }
+    async function loadTXT() {
+        const output = document.getElementById("output");
 
         try {
-            const response = await fetch(url, {
-                cache: "no-store",
-                headers: {
-                    "Cache-Control": "no-cache, no-store, must-revalidate",
-                    "Pragma": "no-cache",
-                    "Expires": "0"
-                }
+            const response = await fetch("RobloxMusicIds.txt", {
+                cache: "no-cache"
             });
 
+            if (!response.ok) {
+                output.textContent = "Error loading RobloxMusicIds.txt (HTTP " + response.status + ")";
+                return;
+            }
+
             const text = await response.text();
-            const hash = text.length + ":" + (text.split("\n").length);
-
-            lastTextHash = hash;
-            document.getElementById("contentBox").textContent = text;
-
-            const lastModified = response.headers.get("Last-Modified");
-            document.getElementById("updated").textContent =
-                "Last Updated: " + (lastModified || "");
+            output.textContent = text;
         } catch (err) {
-            document.getElementById("contentBox").textContent = "";
-            document.getElementById("updated").textContent = "";
-        }
-
-        if (forceRefresh) {
-            setTimeout(() => {
-                document.getElementById("loadingOverlay").style.display = "none";
-                document.getElementById("app").style.display = "flex";
-            }, 1500);
+            output.textContent = "Failed to load file: " + err;
         }
     }
 
-    setTimeout(() => {
-        document.getElementById("loadingOverlay").style.display = "none";
-        document.getElementById("app").style.display = "flex";
-    }, 2500);
+    document.getElementById("refresh").addEventListener("click", loadTXT);
 
-    const menuButtons = document.querySelectorAll(".menu-button");
-    const sections = document.querySelectorAll(".section");
-
-    menuButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-            const targetId = btn.getAttribute("data-target");
-            sections.forEach(sec => {
-                sec.classList.toggle("active", sec.id === targetId);
-            });
-        });
-    });
-
-    document.getElementById("box1").addEventListener("click", () => {
-        document.getElementById("viewerWindow").style.display = "block";
-        fetchTextAndDetectUpdate();
-    });
-
-    document.getElementById("refreshBtn").addEventListener("click", () => {
-        fetchTextAndDetectUpdate(true);
-    });
+    // Load on startup
+    loadTXT();
 </script>
-
 
 </body>
 </html>
