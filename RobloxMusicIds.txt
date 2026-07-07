@@ -17,7 +17,9 @@ Update v0.3 developer build, Second Release, Major UPD Build
 -------------------------------------------------------------
 CHANGE LOG
 -------------------------------------------------------------
-ADDED - CALL OF THE VOID ONE LEFT
+ADDED - Toma Funk Phonk
+ADDED HARDTEKK CATAGORY
+Added - Siren Head Hardtekk
 -------------------------------------------------------------
 
 upd test 2
@@ -33,10 +35,12 @@ funk ids
 100243051031264 - VERTIGO FUNK (Ultra Slowed)
 77492783110864 - megalovania tuff funk with lyrics
 124114599222464 - ONIONIONION PHONK (NEW)
+129098116998483 - Toma Funk Phonk
 
 
-
-
+HARDTEKK
+-------------------------------------------------------
+76174077840874 - THE DARK TRIAD SIREN HEAD HARDTEKK
 
 
 
