@@ -70,42 +70,98 @@
 </div>
 
 <script>
-    async function loadMusicArchive() {
-        const viewer = document.getElementById("archive-viewer");
-        const lastUpdatedText = document.getElementById("last-updated");
+    const tips = [
+        "Tip: Refresh the page if the IDs look outdated.",
+        "Tip: Viewer pulls directly from the latest TXT file.",
+        "Tip: Use CTRL + F to search IDs.",
+        "Tip: Keep this tab open while testing IDs.",
+        "Tip: If empty, check the TXT file content.",
+        "Tip: GitHub may delay updates slightly.",
+        "Tip: Share the archive link with friends.",
+        "Tip: Join the Discord for updates.",
+        "Tip: Only the first box is active.",
+        "Tip: Hard refresh forces newest version."
+    ];
 
-        // Relative path string ensuring compatibility with GitHub Pages routing
-        const filePath = "RobloxMusicIds.txt"; 
+    function pickRandomTip() {
+        const tipIndex = Math.floor(Math.random() * tips.length);
+        document.getElementById("tipText").textContent = tips[tipIndex];
+        document.getElementById("tipCount").textContent =
+            "Showing tip " + (tipIndex + 1) + " of " + tips.length + ".";
+    }
+
+    pickRandomTip();
+
+    let lastTextHash = null;
+
+    async function fetchTextAndDetectUpdate(forceRefresh = false) {
+        const url = "https://raw.githubusercontent.com/corbikiddt-tech/CorbikRobloxIDArchive/main/RobloxMusicIds.txt?nocache=" + Date.now();
+
+        if (forceRefresh) {
+            document.getElementById("loadingOverlay").style.display = "flex";
+            document.getElementById("app").style.display = "none";
+            pickRandomTip();
+        }
 
         try {
-            const response = await fetch(filePath);
+            const response = await fetch(url, {
+                cache: "no-store",
+                headers: {
+                    "Cache-Control": "no-cache, no-store, must-revalidate",
+                    "Pragma": "no-cache",
+                    "Expires": "0"
+                }
+            });
 
-            if (!response.ok) {
-                // Catches 404 Not Found errors caused by casing mistakes on GitHub
-                throw new Error(`HTTP ${response.status}`);
-            }
+            const text = await response.text();
+            const hash = text.length + ":" + (text.split("\n").length);
 
-            const data = await response.text();
-            
-            // Render the text content inside the viewer box
-            viewer.innerText = data;
-            
-            // Update time stamp upon a successful network fetch
-            const now = new Date();
-            lastUpdatedText.innerText = `Last Updated: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
+            lastTextHash = hash;
+            document.getElementById("contentBox").textContent = text;
 
-        } catch (error) {
-            // Render the targeted error UI state if the file cannot be accessed
-            viewer.innerHTML = `<span class="error-message">Error loading RobloxMusicIds.txt (${error.message})</span>`;
+            const lastModified = response.headers.get("Last-Modified");
+            document.getElementById("updated").textContent =
+                "Last Updated: " + (lastModified || "");
+        } catch (err) {
+            document.getElementById("contentBox").textContent = "";
+            document.getElementById("updated").textContent = "";
+        }
+
+        if (forceRefresh) {
+            setTimeout(() => {
+                document.getElementById("loadingOverlay").style.display = "none";
+                document.getElementById("app").style.display = "flex";
+            }, 1500);
         }
     }
 
-    // Bind event listeners to UI components
-    document.getElementById("refresh-btn").addEventListener("click", loadMusicArchive);
-    
-    // Initial fetch cycle on initial document load
-    window.addEventListener("DOMContentLoaded", loadMusicArchive);
+    setTimeout(() => {
+        document.getElementById("loadingOverlay").style.display = "none";
+        document.getElementById("app").style.display = "flex";
+    }, 2500);
+
+    const menuButtons = document.querySelectorAll(".menu-button");
+    const sections = document.querySelectorAll(".section");
+
+    menuButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            const targetId = btn.getAttribute("data-target");
+            sections.forEach(sec => {
+                sec.classList.toggle("active", sec.id === targetId);
+            });
+        });
+    });
+
+    document.getElementById("box1").addEventListener("click", () => {
+        document.getElementById("viewerWindow").style.display = "block";
+        fetchTextAndDetectUpdate();
+    });
+
+    document.getElementById("refreshBtn").addEventListener("click", () => {
+        fetchTextAndDetectUpdate(true);
+    });
 </script>
+
 
 </body>
 </html>
