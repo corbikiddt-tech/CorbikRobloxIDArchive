@@ -20,6 +20,7 @@ CHANGE LOG
 -Added More UT Lyric id's (not yet)
 -Added 'ULTRAKILL' Catagory
 -Added 'War Without Reason' 
+
 -------------------------------------------------------------
 
 upd test 2
@@ -108,6 +109,7 @@ Undertale AU's
 103167351125844 - Call of the Void One Left 
 
 
+
 ULTRAKILL
 -----------------------------------------------------------------
 100536902103011 - War Without Reason
@@ -123,12 +125,14 @@ UNDERTALE REMIXS
 UNDERTALE LYRIC SONGS
 ---------------------
 96357207714662 - Stronger than ya chara response
-97889274347145 - Last!Breath Phase 2 w/ Lyrics
+
 
 
 UNDERTALE AU LYRIC SONGS
 -------------------------
 73090237726472 - Tokyovania Control (With Lyrics)
+107069205009368 - COTV (Call Of The Void) Papyrus Part (With Lyrics)
+97889274347145 - Last!Breath Phase 2 w/ Lyrics
 
 
 Underverse OST
