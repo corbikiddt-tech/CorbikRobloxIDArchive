@@ -1,96 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Roblox Music ID Archive</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #eef2f5;
-            padding: 20px;
-        }
-        #container {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 900px;
-            margin: auto;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        #output {
-            white-space: pre-wrap;
-            background: #fafafa;
-            padding: 15px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            margin-top: 10px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        #search {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            margin-top: 10px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-        #refresh {
-            margin-top: 15px;
-            padding: 10px 15px;
-            font-size: 16px;
-        }
-        #nav {
-            margin-bottom: 20px;
-        }
-        #nav button {
-            padding: 10px 15px;
-            margin-right: 10px;
-            font-size: 16px;
-        }
-        .section {
-            display: none;
-        }
-        .active {
-            display: block;
-        }
-        a {
-            color: #0077cc;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>RobloxMusicIds.txt — Windows Explorer</title>
+<style>
+    :root{
+        --aero-deep: #0b3d78;
+        --aero-mid: #3a8dde;
+        --aero-light: #a9dcfb;
+        --aero-glass: rgba(255,255,255,0.35);
+        --aero-glass-dark: rgba(15,55,100,0.55);
+        --chrome-silver: #eef4f9;
+        --leaf-green: #7ec13d;
+        --leaf-green-dark: #56941f;
+    }
+
+    *{ box-sizing:border-box; }
+
+    html,body{
+        height:100%;
+        margin:0;
+        font-family:"Segoe UI","Tahoma","Geneva",Verdana,sans-serif;
+        color:#123a5e;
+    }
+
+    /* ===== Frutiger Aero sky backdrop ===== */
+    body{
+        min-height:100vh;
+        padding:36px 18px;
+        display:flex;
+        align-items:flex-start;
+        justify-content:center;
+        background:
+            radial-gradient(ellipse at 20% -10%, #eaf8ff 0%, transparent 55%),
+            radial-gradient(ellipse at 85% 110%, #d3f3d0 0%, transparent 50%),
+            linear-gradient(180deg,#bfe6fb 0%, #6fb8e8 35%, #2f7fc7 70%, #145a9e 100%);
+        overflow-x:hidden;
+        position:relative;
+    }
+
+    /* floating aero bubbles */
+    .bubble{
+        position:fixed;
+        border-radius:50%;
+        background:
+            radial-gradient(circle at 30% 25%, rgba(255,255,255,0.95), rgba(255,255,255,0.05) 55%),
+            radial-gradient(circle at 70% 80%, rgba(255,255,255,0.15), transparent 60%);
+        box-shadow: inset 0 0 12px rgba(255,255,255,0.5), 0 6px 14px rgba(0,60,110,0.15);
+        pointer-events:none;
+        opacity:0.8;
+        animation: drift linear infinite;
+        z-index:0;
+    }
+    @keyframes drift{
+        0%   { transform: translateY(0) translateX(0); }
+        50%  { transform: translateY(-40px) translateX(18px); }
+        100% { transform: translateY(0) translateX(0); }
+    }
+
+    /* ===== Aero glass window ===== */
+    #window{
+        position:relative;
+        z-index:1;
+        width:100%;
+        max-width:920px;
+        border-radius:14px;
+        overflow:hidden;
+        background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.15));
+        backdrop-filter: blur(6px);
+        border:1px solid rgba(255,255,255,0.6);
+        box-shadow:
+            0 22px 45px rgba(5,35,70,0.45),
+            0 2px 0 rgba(255,255,255,0.8) inset,
+            0 0 0 1px rgba(20,80,140,0.25);
+    }
+
+    /* title bar */
+    #titlebar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        padding:9px 14px;
+        background:
+            linear-gradient(180deg, rgba(255,255,255,0.85) 0%, rgba(190,225,250,0.55) 45%, rgba(90,165,225,0.55) 46%, rgba(40,110,190,0.75) 100%);
+        border-bottom:1px solid rgba(255,255,255,0.6);
+        box-shadow: 0 1px 0 rgba(255,255,255,0.6) inset;
+    }
+    #titlebar .title{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        font-size:14px;
+        font-weight:600;
+        color:#0d3d6b;
+        text-shadow: 0 1px 0 rgba(255,255,255,0.7);
+        letter-spacing:0.2px;
+    }
+    #titlebar .icon{
+        width:20px;height:20px;border-radius:5px;
+        background: radial-gradient(circle at 30% 25%, #cdeeff, #3a8dde 60%, #0b3d78 100%);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.35), inset 0 0 3px rgba(255,255,255,0.8);
+    }
+    #titlebar .controls{ display:flex; gap:6px; }
+    .capbtn{
+        width:26px;height:22px;
+        border-radius:4px;
+        border:1px solid rgba(255,255,255,0.6);
+        display:flex; align-items:center; justify-content:center;
+        font-size:11px; color:#fff;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.6);
+        cursor:default;
+    }
+    .capbtn.min{ background:linear-gradient(180deg,#bfe0f7,#4f9fdd 55%,#2c78ba); }
+    .capbtn.max{ background:linear-gradient(180deg,#bfe0f7,#4f9fdd 55%,#2c78ba); }
+    .capbtn.close{ background:linear-gradient(180deg,#ff9d94,#e6483a 55%,#b8291d); }
+
+    /* menu ribbon (nav) */
+    #nav{
+        display:flex;
+        gap:8px;
+        padding:10px 14px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(220,240,252,0.35));
+        border-bottom:1px solid rgba(255,255,255,0.5);
+    }
+    .aero-btn{
+        position:relative;
+        overflow:hidden;
+        padding:8px 20px;
+        font-size:13px;
+        font-weight:600;
+        color:#0d3d6b;
+        border-radius:20px;
+        border:1px solid rgba(20,90,150,0.35);
+        background: linear-gradient(180deg, #ffffff 0%, #dff0fb 42%, #a9d8f5 43%, #7fc0ef 100%);
+        box-shadow:
+            0 3px 6px rgba(10,60,110,0.3),
+            inset 0 1px 0 rgba(255,255,255,0.9);
+        cursor:pointer;
+        transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .aero-btn::after{
+        content:"";
+        position:absolute;
+        top:0; left:0; right:0; height:45%;
+        background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0));
+        border-radius:20px 20px 50% 50% / 20px 20px 12px 12px;
+        pointer-events:none;
+    }
+    .aero-btn:hover{ transform: translateY(-1px); box-shadow:0 5px 10px rgba(10,60,110,0.35), inset 0 1px 0 rgba(255,255,255,0.9); }
+    .aero-btn:active{ transform: translateY(1px); }
+    .aero-btn.active-tab{
+        background: linear-gradient(180deg, #fff9d6 0%, #ffe9a8 42%, #f7c65a 43%, #e8a53a 100%);
+        border-color:#c98a1e;
+        color:#5a3b00;
+    }
+
+    /* content pane (glass) */
+    #content{
+        padding:18px 20px 22px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.55), rgba(240,248,253,0.75));
+    }
+
+    .section{ display:none; }
+    .section.active{ display:block; animation: fadein 0.25s ease; }
+    @keyframes fadein{ from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);} }
+
+    h2{
+        margin:2px 0 6px;
+        font-size:20px;
+        color:#0d3d6b;
+        text-shadow:0 1px 0 rgba(255,255,255,0.8);
+    }
+    p{ font-size:13.5px; line-height:1.55; color:#1a4a72; }
+
+    /* search box, Aero glass inset style */
+    #search{
+        width:100%;
+        margin-top:10px;
+        padding:10px 14px;
+        font-size:14px;
+        border-radius:20px;
+        border:1px solid rgba(15,70,120,0.4);
+        background: linear-gradient(180deg, #eaf6ff, #ffffff 40%);
+        box-shadow: inset 0 2px 4px rgba(20,80,140,0.25), 0 1px 0 rgba(255,255,255,0.7);
+        color:#0d3d6b;
+        outline:none;
+    }
+    #search:focus{
+        border-color:#3a8dde;
+        box-shadow: inset 0 2px 4px rgba(20,80,140,0.3), 0 0 0 3px rgba(122,196,255,0.45);
+    }
+    #search::placeholder{ color:#6b9cc2; }
+
+    /* refresh button, Frutiger green orb style */
+    #refresh{
+        margin-top:14px;
+        padding:9px 22px;
+        font-size:13.5px;
+        font-weight:700;
+        color:#fff;
+        border:1px solid #4c7d1a;
+        border-radius:20px;
+        background: linear-gradient(180deg, #d4f39a 0%, #8fd24a 40%, #6bb42c 41%, #4f8e1c 100%);
+        box-shadow: 0 3px 6px rgba(30,80,10,0.35), inset 0 1px 0 rgba(255,255,255,0.8);
+        cursor:pointer;
+        position:relative;
+        overflow:hidden;
+        transition: transform 0.12s ease;
+    }
+    #refresh::after{
+        content:"";
+        position:absolute; top:0; left:0; right:0; height:48%;
+        background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0));
+        border-radius:20px 20px 50% 50% / 20px 20px 10px 10px;
+    }
+    #refresh:hover{ transform: translateY(-1px); }
+    #refresh:active{ transform: translateY(1px); }
+
+    /* output panel = frosted glass "notepad" */
+    #output{
+        white-space:pre-wrap;
+        margin-top:14px;
+        padding:16px;
+        max-height:400px;
+        overflow-y:auto;
+        font-family:"Consolas","Lucida Console",monospace;
+        font-size:13px;
+        color:#0d3d6b;
+        border-radius:10px;
+        border:1px solid rgba(15,70,120,0.35);
+        background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(224,242,252,0.85));
+        box-shadow: inset 0 2px 8px rgba(20,80,140,0.2), 0 1px 0 rgba(255,255,255,0.7);
+    }
+    #output::-webkit-scrollbar{ width:14px; }
+    #output::-webkit-scrollbar-track{ background: rgba(200,225,245,0.5); border-radius:10px; }
+    #output::-webkit-scrollbar-thumb{
+        background: linear-gradient(180deg,#cfe9fb,#7fc0ef 45%,#3a8dde 46%,#1c5fa8);
+        border-radius:10px;
+        border:2px solid rgba(255,255,255,0.6);
+    }
+
+    /* help section styling */
+    .discord-card{
+        margin-top:14px;
+        padding:16px 18px;
+        border-radius:12px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.75), rgba(210,235,252,0.6));
+        border:1px solid rgba(15,70,120,0.3);
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 6px rgba(10,60,110,0.15);
+    }
+    .discord-card strong{ color:#0d3d6b; }
+    a.aero-link{
+        display:inline-block;
+        margin-top:10px;
+        padding:8px 18px;
+        border-radius:20px;
+        font-weight:700;
+        font-size:13px;
+        color:#fff;
+        text-decoration:none;
+        background: linear-gradient(180deg, #9fc9ff 0%, #4f9fdd 45%, #2c78ba 46%, #1c5fa8 100%);
+        border:1px solid #164e8a;
+        box-shadow: 0 3px 6px rgba(10,60,110,0.3), inset 0 1px 0 rgba(255,255,255,0.7);
+    }
+    a.aero-link:hover{ filter:brightness(1.06); }
+
+    /* status / taskbar strip at bottom of window, very win7 */
+    #statusbar{
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        padding:6px 14px;
+        font-size:11.5px;
+        color:#0d3d6b;
+        background: linear-gradient(180deg, rgba(220,240,252,0.7), rgba(255,255,255,0.5));
+        border-top:1px solid rgba(255,255,255,0.6);
+    }
+    #statusbar .dot{
+        display:inline-block; width:8px; height:8px; border-radius:50%;
+        background: radial-gradient(circle at 30% 25%, #d8ffb0, #7ec13d 60%, #4f8e1c);
+        margin-right:6px;
+        box-shadow:0 0 4px rgba(80,150,20,0.7);
+    }
+</style>
 </head>
 <body>
 
-<div id="container">
+<div id="window">
+
+    <div id="titlebar">
+        <div class="title">
+            <span class="icon"></span>
+            RobloxMusicIds.txt — Windows Explorer
+        </div>
+        <div class="controls">
+            <div class="capbtn min">&#9472;</div>
+            <div class="capbtn max">&#9633;</div>
+            <div class="capbtn close">&#10005;</div>
+        </div>
+    </div>
 
     <div id="nav">
-        <button onclick="showSection('viewer')">Viewer</button>
-        <button onclick="showSection('help')">Help</button>
+        <button class="aero-btn active-tab" data-target="viewer" onclick="showSection('viewer', this)">Viewer</button>
+        <button class="aero-btn" data-target="help" onclick="showSection('help', this)">Help</button>
     </div>
 
-    <!-- Viewer Section -->
-    <div id="viewer" class="section active">
-        <h2>RobloxMusicIds.txt Viewer</h2>
-        <p>Search and view the exact contents of <strong>RobloxMusicIds.txt</strong>.</p>
+    <div id="content">
+        <!-- Viewer Section -->
+        <div id="viewer" class="section active">
+            <h2>RobloxMusicIds.txt Viewer</h2>
+            <p>Search and view the exact contents of <strong>RobloxMusicIds.txt</strong>.</p>
 
-        <input id="search" type="text" placeholder="Search..." oninput="filterText()">
+            <input id="search" type="text" placeholder="Search..." oninput="filterText()">
 
-        <button id="refresh">Refresh File</button>
+            <button id="refresh">Refresh File</button>
 
-        <div id="output">Loading...</div>
+            <div id="output">Loading...</div>
+        </div>
+
+        <!-- Help Section -->
+        <div id="help" class="section">
+            <h2>Help &amp; Support</h2>
+            <p>If you need help or want to report an issue, join the Discord server:</p>
+
+            <div class="discord-card">
+                <p style="margin:0 0 6px;"><strong>Invite Code:</strong> UCa6RGqhDN</p>
+                <a class="aero-link" href="https://discord.gg/UCa6RGqhDN" target="_blank">Join the Discord →</a>
+            </div>
+
+            <p style="margin-top:16px;">This page automatically loads the latest version of RobloxMusicIds.txt from GitHub Pages.
+            If the file doesn't update instantly, wait 10–20 seconds — GitHub sometimes delays updates.</p>
+        </div>
     </div>
 
-    <!-- Help Section -->
-    <div id="help" class="section">
-        <h2>Help & Support</h2>
-        <p>If you need help or want to report an issue, join the Discord server:</p>
-
-        <p><strong>Invite Code:</strong> UCa6RGqhDN</p>
-
-        <p><a href="https://discord.gg/UCa6RGqhDN" target="_blank">Click here to join the Discord</a></p>
-
-        <p>This page automatically loads the latest version of RobloxMusicIds.txt from GitHub Pages.  
-        If the file doesn’t update instantly, wait 10–20 seconds — GitHub sometimes delays updates.</p>
+    <div id="statusbar">
+        <span><span class="dot"></span>Ready</span>
+        <span id="linecount">0 lines</span>
     </div>
 
 </div>
@@ -100,22 +345,29 @@
 
     async function loadTXT() {
         const output = document.getElementById("output");
+        output.textContent = "Loading...";
 
         try {
-            const response = await fetch("RobloxMusicIds.txt", {
-                cache: "no-cache"
-            });
+            const response = await fetch("RobloxMusicIds.txt", { cache: "no-cache" });
 
             if (!response.ok) {
                 output.textContent = "Error loading RobloxMusicIds.txt (HTTP " + response.status + ")";
+                document.getElementById("linecount").textContent = "Error";
                 return;
             }
 
             fullText = await response.text();
             output.textContent = fullText;
+            updateLineCount(fullText);
         } catch (err) {
             output.textContent = "Failed to load file: " + err;
+            document.getElementById("linecount").textContent = "Error";
         }
+    }
+
+    function updateLineCount(text){
+        const n = text.split("\n").filter(l => l.trim().length > 0).length;
+        document.getElementById("linecount").textContent = n + " lines";
     }
 
     function filterText() {
@@ -124,25 +376,43 @@
 
         if (!query.trim()) {
             output.textContent = fullText;
+            updateLineCount(fullText);
             return;
         }
 
-        const filtered = fullText
-            .split("\n")
-            .filter(line => line.toLowerCase().includes(query))
-            .join("\n");
-
-        output.textContent = filtered || "No results found.";
+        const filteredLines = fullText.split("\n").filter(line => line.toLowerCase().includes(query));
+        output.textContent = filteredLines.join("\n") || "No results found.";
+        document.getElementById("linecount").textContent = filteredLines.length + " lines matched";
     }
 
-    function showSection(id) {
+    function showSection(id, btn) {
         document.querySelectorAll(".section").forEach(sec => sec.classList.remove("active"));
         document.getElementById(id).classList.add("active");
+        document.querySelectorAll(".aero-btn").forEach(b => b.classList.remove("active-tab"));
+        btn.classList.add("active-tab");
     }
 
     document.getElementById("refresh").addEventListener("click", loadTXT);
 
     loadTXT();
+
+    // ===== ambient Frutiger Aero bubbles =====
+    function spawnBubbles(n){
+        const sizes = [18,26,34,44,60,80];
+        for(let i=0;i<n;i++){
+            const b = document.createElement("div");
+            b.className = "bubble";
+            const size = sizes[Math.floor(Math.random()*sizes.length)];
+            b.style.width = size+"px";
+            b.style.height = size+"px";
+            b.style.left = Math.random()*100+"vw";
+            b.style.top = Math.random()*100+"vh";
+            b.style.animationDuration = (6+Math.random()*8)+"s";
+            b.style.animationDelay = (Math.random()*5)+"s";
+            document.body.appendChild(b);
+        }
+    }
+    spawnBubbles(14);
 </script>
 
 </body>
