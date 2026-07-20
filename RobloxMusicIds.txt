@@ -13,17 +13,15 @@ Thanks for using this!
 
 UPDATE LOG
 -------------------------------------------------------------
-Update v0.4 Public-Test build, Major UT Update
+Update v0.5 MAJOR UT BUILD, Gui Change
 -------------------------------------------------------------
 CHANGE LOG
 -------------------------------------------------------------
--Added More UT Lyric id's (not yet)
--Added 'ULTRAKILL' Catagory
--Added 'War Without Reason' 
+-Made GUI Frutiger Aero Style.
 
 -------------------------------------------------------------
 
-upd test 2
+upd test 3
 
 funk ids
 --------------------------------------
